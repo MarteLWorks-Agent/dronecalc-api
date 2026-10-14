@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DroneCalc — калькуляторы для дронов</title>
+<style>
+:root{--bg:#0f1419;--card:#18202a;--fg:#e6edf3;--mut:#8b98a5;--acc:#4cc2ff;--bd:#2a3542}
+*{box-sizing:border-box}body{margin:0;font:15px/1.5 system-ui,sans-serif;background:var(--bg);color:var(--fg)}
+main{max-width:860px;margin:0 auto;padding:24px 16px}h1{margin:0 0 4px}p.m{color:var(--mut);margin:0 0 20px}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}.tabs button{background:var(--card);color:var(--fg);border:1px solid var(--bd);padding:8px 12px;border-radius:8px;cursor:pointer}
+.tabs button.on{border-color:var(--acc);color:var(--acc)}.card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:16px}
+form{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px}label{font-size:13px;color:var(--mut)}
+input,select{width:100%;padding:8px;border-radius:6px;border:1px solid var(--bd);background:#0b1016;color:var(--fg)}
+.go{grid-column:1/-1;background:var(--acc);color:#001018;border:0;padding:10px;border-radius:8px;font-weight:600;cursor:pointer}
+pre{white-space:pre-wrap;background:#0b1016;border-radius:8px;padding:12px;font-size:13px;overflow:auto}
+footer{color:var(--mut);font-size:13px;margin-top:20px}a{color:var(--acc)}
+</style></head><body><main>
+<h1>DroneCalc</h1>
+<p class="m">Инженерные калькуляторы для мультироторов: время полёта, тяговооружённость, подбор АКБ и пропеллеров. Каждый ответ — с формулами и допущениями. Сервис ведёт автономный ИИ-агент.</p>
+<div class="tabs" id="tabs"></div>
+<div class="card"><form id="f"></form><pre id="out">Заполните поля и нажмите «Рассчитать».</pre></div>
+<footer>20 бесплатных расчётов в день. Дальше — 0.10 USDC за запрос в сети Base (<a href="/v1/pricing">как оплатить</a>). API: <a href="/openapi.json">OpenAPI</a>.</footer>
+</main><script>
+const T={
+ "/v1/flight-time":["Время полёта",[["cells","Банок (S)",4],["capacityMah","Ёмкость, мА·ч",5000],["auwG","Взлётный вес, г",1500],["efficiencyGPerW","КПД винтомоторной группы, г/Вт",7],["usableFraction","Используемая доля",0.8],["cRating","C-рейтинг",""],["chemistry","Химия",["lipo","lihv","liion"]]]],
+ "/v1/thrust-to-weight":["Тяговооружённость",[["auwG","Взлётный вес, г",1500],["motors","Моторов",4],["maxThrustPerMotorG","Макс. тяга мотора, г",1200]]],
+ "/v1/battery-sizing":["Подбор АКБ",[["dryWeightG","Вес без АКБ, г",1100],["targetFlightTimeMin","Целевое время, мин",20],["cells","Банок (S)",4],["efficiencyGPerW","КПД, г/Вт",7],["chemistry","Химия",["lipo","lihv","liion"]]]],
+ "/v1/prop-sizing":["Подбор винтов",[["auwG","Взлётный вес, г",1500],["motors","Моторов",4],["diskLoadingGPerCm2","Нагрузка на диск, г/см²",1],["targetThrustToWeight","Целевая TWR",2]]]
+};
+let cur=Object.keys(T)[0];const tabs=document.getElementById('tabs'),form=document.getElementById('f'),out=document.getElementById('out');
+function draw(){tabs.innerHTML='';for(const k in T){const b=document.createElement('button');b.textContent=T[k][0];b.className=k===cur?'on':'';b.onclick=()=>{cur=k;draw()};tabs.append(b)}
+form.innerHTML='';for(const[n,l,v]of T[cur][1]){const d=document.createElement('div');const lab=document.createElement('label');lab.textContent=l;let i;
+if(Array.isArray(v)){i=document.createElement('select');v.forEach(o=>{const op=document.createElement('option');op.textContent=o;i.append(op)})}else{i=document.createElement('input');i.value=v;i.inputMode='decimal'}
+i.name=n;d.append(lab,i);form.append(d)}const g=document.createElement('button');g.className='go';g.textContent='Рассчитать';form.append(g)}
+form.onsubmit=async e=>{e.preventDefault();const p=new URLSearchParams();for(const el of form.elements)if(el.name&&el.value!=='')p.set(el.name,el.value);
+out.textContent='…';try{const r=await fetch(cur+'?'+p);const j=await r.json();const left=r.headers.get('x-free-remaining');out.textContent=JSON.stringify(j.result||j,null,2)+(j.formulas?'\n\nФормулы:\n- '+j.formulas.join('\n- '):'')+(j.assumptions?'\n\nДопущения:\n- '+j.assumptions.join('\n- '):'')+(left?'\n\nБесплатных расчётов сегодня осталось: '+left:'')}catch(err){out.textContent='Ошибка: '+err}};
+draw();
+</script></body></html>

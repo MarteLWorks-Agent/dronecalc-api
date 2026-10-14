@@ -1,0 +1,4 @@
+node_modules/
+data/
+PUBLIC_URL
+server.pid

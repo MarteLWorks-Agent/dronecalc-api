@@ -1,0 +1,327 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "DroneCalc API",
+    "version": "1.0.0",
+    "description": "Engineering calculators for multirotor drones. Every answer includes the formulas and assumptions used. 20 free requests/day, then 0.10 USDC per request on Base. POST with a JSON body works too."
+  },
+  "paths": {
+    "/v1/flight-time": {
+      "get": {
+        "summary": "Hover flight time from battery and efficiency",
+        "parameters": [
+          {
+            "name": "cells",
+            "in": "query",
+            "required": true,
+            "description": "Series cell count (S)",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "capacityMah",
+            "in": "query",
+            "required": true,
+            "description": "Pack capacity, mAh",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "auwG",
+            "in": "query",
+            "required": true,
+            "description": "All-up weight, g",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "efficiencyGPerW",
+            "in": "query",
+            "required": false,
+            "description": "Hover efficiency, g/W (default 7)",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "usableFraction",
+            "in": "query",
+            "required": false,
+            "description": "Usable capacity fraction (default 0.8)",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "cRating",
+            "in": "query",
+            "required": false,
+            "description": "Pack C rating (optional)",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "chemistry",
+            "in": "query",
+            "required": false,
+            "description": "lipo | lihv | liion (default lipo)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Payment-Tx",
+            "in": "header",
+            "required": false,
+            "description": "Hash of a USDC transfer on Base to the agent wallet (see /v1/pricing). Omit to use the free tier.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Result with formulas and assumptions"
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "402": {
+            "description": "Payment required (free tier exhausted or bad payment)"
+          }
+        }
+      }
+    },
+    "/v1/thrust-to-weight": {
+      "get": {
+        "summary": "Thrust-to-weight ratio and hover throttle",
+        "parameters": [
+          {
+            "name": "auwG",
+            "in": "query",
+            "required": true,
+            "description": "All-up weight, g",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "motors",
+            "in": "query",
+            "required": false,
+            "description": "Motor count (default 4)",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "maxThrustPerMotorG",
+            "in": "query",
+            "required": true,
+            "description": "Max thrust per motor, g",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "X-Payment-Tx",
+            "in": "header",
+            "required": false,
+            "description": "Hash of a USDC transfer on Base to the agent wallet (see /v1/pricing). Omit to use the free tier.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Result with formulas and assumptions"
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "402": {
+            "description": "Payment required (free tier exhausted or bad payment)"
+          }
+        }
+      }
+    },
+    "/v1/battery-sizing": {
+      "get": {
+        "summary": "Battery size for a target flight time",
+        "parameters": [
+          {
+            "name": "dryWeightG",
+            "in": "query",
+            "required": true,
+            "description": "Weight without battery, g",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "targetFlightTimeMin",
+            "in": "query",
+            "required": true,
+            "description": "Target hover time, min",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "cells",
+            "in": "query",
+            "required": true,
+            "description": "Series cell count (S)",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "efficiencyGPerW",
+            "in": "query",
+            "required": false,
+            "description": "Hover efficiency, g/W (default 7)",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "usableFraction",
+            "in": "query",
+            "required": false,
+            "description": "Usable fraction (default 0.8)",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "energyDensityWhPerKg",
+            "in": "query",
+            "required": false,
+            "description": "Override pack energy density",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "chemistry",
+            "in": "query",
+            "required": false,
+            "description": "lipo | lihv | liion (default lipo)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Payment-Tx",
+            "in": "header",
+            "required": false,
+            "description": "Hash of a USDC transfer on Base to the agent wallet (see /v1/pricing). Omit to use the free tier.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Result with formulas and assumptions"
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "402": {
+            "description": "Payment required (free tier exhausted or bad payment)"
+          }
+        }
+      }
+    },
+    "/v1/prop-sizing": {
+      "get": {
+        "summary": "Propeller diameter from disk loading",
+        "parameters": [
+          {
+            "name": "auwG",
+            "in": "query",
+            "required": true,
+            "description": "All-up weight, g",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "motors",
+            "in": "query",
+            "required": false,
+            "description": "Motor count (default 4)",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "diskLoadingGPerCm2",
+            "in": "query",
+            "required": false,
+            "description": "Hover disk loading, g/cm² (default 1.0)",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "targetThrustToWeight",
+            "in": "query",
+            "required": false,
+            "description": "Target TWR (default 2)",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "X-Payment-Tx",
+            "in": "header",
+            "required": false,
+            "description": "Hash of a USDC transfer on Base to the agent wallet (see /v1/pricing). Omit to use the free tier.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Result with formulas and assumptions"
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "402": {
+            "description": "Payment required (free tier exhausted or bad payment)"
+          }
+        }
+      }
+    },
+    "/v1/pricing": {
+      "get": {
+        "summary": "How to pay",
+        "responses": {
+          "200": {
+            "description": "Pricing and wallet address"
+          }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "summary": "Health check",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  }
+}
