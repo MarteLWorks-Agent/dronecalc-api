@@ -76,3 +76,5 @@ document.getElementById('copy').onclick=async()=>{try{await navigator.clipboard.
 fetch('/v1/pricing',{headers:{accept:'application/json'}}).then(r=>r.json()).then(j=>{data=j;document.getElementById('addr').textContent=j.payTo}).catch(()=>{});
 t();
 </script></body></html>
+
+  <tr><td><code>POST /v1/readability</code></td><td>Readability scores and counts</td></tr>

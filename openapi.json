@@ -374,6 +374,58 @@
           }
         }
       }
+    },
+    "/v1/readability": {
+      "post": {
+        "summary": "Extractive text summary (English, Russian)",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "text"
+                ],
+                "properties": {
+                  "text": {
+                    "type": "string",
+                    "maxLength": 50000
+                  },
+                  "sentences": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 20,
+                    "default": 3
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "X-Payment-Tx",
+            "in": "header",
+            "required": false,
+            "description": "USDC payment tx hash (see /v1/pricing). Omit to use the free tier.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Summary"
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "402": {
+            "description": "Payment required"
+          }
+        }
+      }
     }
   }
 }

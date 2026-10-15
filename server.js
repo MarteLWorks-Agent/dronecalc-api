@@ -8,6 +8,7 @@ const pay = require('./lib/payments');
 
 const PORT = Number(process.env.PORT || 8787);
 const ROUTES = {
+  '/v1/readability': require('./lib/readability').fn,
   '/v1/summarize': require('./lib/summarize').summarize,
   '/v1/flight-time': f.flightTime,
   '/v1/thrust-to-weight': f.thrustToWeight,
