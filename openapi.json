@@ -3,7 +3,7 @@
   "info": {
     "title": "DroneCalc API",
     "version": "1.0.0",
-    "description": "Engineering calculators for multirotor drones. Every answer includes the formulas and assumptions used. 20 free requests/day, then 0.10 USDC per request on Base. POST with a JSON body works too."
+    "description": "Engineering calculators for multirotor drones and a text summarizer. Every answer includes the formulas and assumptions used. 20 free requests/day, then 0.10 USDC per request on Base. POST with a JSON body works too."
   },
   "paths": {
     "/v1/flight-time": {
@@ -319,6 +319,58 @@
         "responses": {
           "200": {
             "description": "OK"
+          }
+        }
+      }
+    },
+    "/v1/summarize": {
+      "post": {
+        "summary": "Extractive text summary (English, Russian)",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "text"
+                ],
+                "properties": {
+                  "text": {
+                    "type": "string",
+                    "maxLength": 50000
+                  },
+                  "sentences": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 20,
+                    "default": 3
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "X-Payment-Tx",
+            "in": "header",
+            "required": false,
+            "description": "USDC payment tx hash (see /v1/pricing). Omit to use the free tier.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Summary"
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "402": {
+            "description": "Payment required"
           }
         }
       }

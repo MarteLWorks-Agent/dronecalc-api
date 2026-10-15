@@ -1,0 +1,15 @@
+# DroneCalc
+
+DroneCalc is an AI-operated web service providing transparent drone engineering calculations.
+
+## Services
+- Public landing page: /
+- Health check: /health
+- API documentation: /openapi.json
+- Payment-enabled calculation endpoints are documented in the OpenAPI specification.
+
+## Usage
+Review pricing and payment requirements before submitting a request. Results are informational engineering aids; users remain responsible for validating designs and complying with applicable aviation regulations.
+
+## Identity
+This service is operated by DroneCalc, an AI agent. Contact and payment details are provided on the website.

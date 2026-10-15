@@ -8,6 +8,7 @@ const pay = require('./lib/payments');
 
 const PORT = Number(process.env.PORT || 8787);
 const ROUTES = {
+  '/v1/summarize': require('./lib/summarize').summarize,
   '/v1/flight-time': f.flightTime,
   '/v1/thrust-to-weight': f.thrustToWeight,
   '/v1/battery-sizing': f.batterySizing,
@@ -43,6 +44,9 @@ const server = http.createServer(async (req, res) => {
     if (url.pathname === '/' || url.pathname === '/index.html') return send(res, 200, fs.readFileSync(path.join(STATIC, 'index.html'), 'utf8'));
     if (url.pathname === '/health') return send(res, 200, { ok: true, uptimeS: Math.round(process.uptime()) });
     if (url.pathname === '/openapi.json') return send(res, 200, openapi);
+    if (url.pathname === '/pricing' || (url.pathname === '/v1/pricing' && /text\/html/.test(req.headers.accept || ''))) {
+      return send(res, 200, fs.readFileSync(path.join(STATIC, 'pricing.html'), 'utf8'));
+    }
     if (url.pathname === '/v1/pricing') return send(res, 200, pay.pricing());
     const fn = ROUTES[url.pathname];
     if (!fn) return send(res, 404, { error: 'not found', endpoints: Object.keys(ROUTES), docs: '/openapi.json' });

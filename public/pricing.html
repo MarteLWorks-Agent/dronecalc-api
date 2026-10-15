@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Тарифы и оплата — DroneCalc by MarteLWorks</title>
+<meta name="description" content="20 бесплатных расчётов в день. Дальше 0.10 USDC за запрос в сети Base или Arc. Без регистрации.">
+<style>
+:root{--bg:#0f1419;--card:#18202a;--card2:#1d2733;--fg:#e6edf3;--mut:#8b98a5;--acc:#4cc2ff;--ok:#82ffcd;--warn:#ffb86b;--bd:#2a3542}
+*{box-sizing:border-box}body{margin:0;font:15px/1.6 system-ui,-apple-system,Segoe UI,sans-serif;background:var(--bg);color:var(--fg)}
+main{max-width:860px;margin:0 auto;padding:28px 16px 40px}a{color:var(--acc)}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:6px}
+.top a.back{color:var(--mut);text-decoration:none;font-size:14px}.lang button{background:none;border:1px solid var(--bd);color:var(--mut);padding:4px 10px;border-radius:6px;cursor:pointer}
+.lang button.on{color:var(--acc);border-color:var(--acc)}
+h1{margin:6px 0 4px;font-size:30px}p.lead{color:var(--mut);margin:0 0 24px}
+.plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-bottom:28px}
+.plan{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:18px}
+.plan.hi{border-color:var(--acc)}.plan h3{margin:0 0 6px;font-size:16px;color:var(--mut);font-weight:600}
+.price{font-size:30px;font-weight:700}.price small{font-size:14px;color:var(--mut);font-weight:400}
+.plan ul{margin:10px 0 0;padding-left:18px;color:var(--fg)}.plan li{margin:3px 0}
+h2{font-size:20px;margin:30px 0 12px}
+.steps{counter-reset:s;display:grid;grid-template-columns:minmax(0,1fr);gap:12px}
+.step{min-width:0;background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:14px 16px 14px 56px;position:relative}
+.step:before{counter-increment:s;content:counter(s);position:absolute;left:16px;top:14px;width:28px;height:28px;border-radius:50%;background:var(--acc);color:#001018;font-weight:700;display:grid;place-items:center}
+.nets{display:flex;gap:8px;margin:8px 0}.nets button{background:var(--card2);color:var(--fg);border:1px solid var(--bd);border-radius:8px;padding:6px 14px;cursor:pointer}
+.nets button.on{border-color:var(--acc);color:var(--acc)}
+.addr{display:flex;gap:8px;align-items:center;flex-wrap:wrap;background:#0b1016;border:1px solid var(--bd);border-radius:8px;padding:10px 12px;font:13px ui-monospace,Consolas,monospace;word-break:break-all}
+.addr button{margin-left:auto;background:var(--acc);color:#001018;border:0;border-radius:6px;padding:6px 12px;font-weight:600;cursor:pointer}
+.warn{background:rgba(255,184,107,.08);border:1px solid rgba(255,184,107,.35);color:var(--warn);border-radius:8px;padding:8px 12px;margin-top:8px;font-size:14px}
+pre{white-space:pre-wrap;word-break:break-all;background:#0b1016;border:1px solid var(--bd);border-radius:8px;padding:12px;overflow:auto;font-size:13px;margin:8px 0 0}
+details{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:10px 14px;margin:8px 0}summary{cursor:pointer;font-weight:600}
+footer{color:var(--mut);font-size:13px;margin-top:30px;border-top:1px solid var(--bd);padding-top:14px}
+.calc{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:8px}.calc input{width:90px;padding:6px 8px;border-radius:6px;border:1px solid var(--bd);background:#0b1016;color:var(--fg)}
+</style></head><body><main>
+<div class="top"><a class="back" href="/" data-t="back">← К калькуляторам</a>
+<div class="lang"><button data-l="ru" class="on">RU</button> <button data-l="en">EN</button></div></div>
+<h1 data-t="h1">Тарифы и оплата</h1>
+<p class="lead" data-t="lead">Без регистрации и подписок. Платите только за то, чем пользуетесь.</p>
+
+<div class="plans">
+ <div class="plan"><h3 data-t="free">Бесплатно</h3><div class="price">0 <small>USDC</small></div>
+  <ul><li data-t="f1">20 расчётов в день</li><li data-t="f2">Все калькуляторы и сжатие текстов</li><li data-t="f3">Без регистрации</li></ul></div>
+ <div class="plan hi"><h3 data-t="paid">Оплата за запрос</h3><div class="price">0.10 <small data-t="perreq">USDC за запрос</small></div>
+  <ul><li data-t="p1">Без дневного лимита</li><li data-t="p2">Одна оплата — сразу много запросов: 1 USDC = 10, 10 USDC = 100</li><li data-t="p3">Оплата в сети Base или Arc</li></ul></div>
+</div>
+
+<h2 data-t="how">Как оплатить</h2>
+<div class="steps">
+ <div class="step"><b data-t="s1t">Выберите сеть</b><div class="nets"><button data-n="Base" class="on">Base</button><button data-n="Arc">Arc</button></div>
+  <div style="color:var(--mut);font-size:14px" data-t="s1d">Подойдёт любой кошелёк с USDC: MetaMask, Coinbase Wallet, Rabby или вывод с биржи.</div></div>
+ <div class="step"><b data-t="s2t">Отправьте USDC на этот адрес</b>
+  <div class="addr"><span id="addr">…</span><button id="copy" data-t="copy">Копировать</button></div>
+  <div class="calc"><span data-t="want">Нужно запросов:</span><input id="n" type="number" min="1" value="10"><span>→ <b id="sum">1.00</b> USDC</span></div>
+  <div class="warn" id="warn">⚠ Только USDC и только в сети <b class="netname">Base</b>. Переводы в других сетях не засчитываются.</div></div>
+ <div class="step"><b data-t="s3t">Используйте хэш транзакции</b>
+  <div style="font-size:14px" data-t="s3d">Скопируйте хэш транзакции (0x…) из кошелька и передавайте его с запросами — заголовком <code>X-Payment-Tx</code> или параметром <code>tx</code>. Оплата проверяется в блокчейне за пару секунд, остаток виден в заголовке <code>X-Credits-Remaining</code>.</div>
+<pre id="ex"></pre></div>
+</div>
+
+<h2 data-t="faq">Вопросы</h2>
+<details><summary data-t="q1">Нужна регистрация или карта?</summary><div data-t="a1">Нет. Только USDC в кошельке. Ваш хэш транзакции и есть ваш «аккаунт».</div></details>
+<details><summary data-t="q2">Что если я отправил не в той сети?</summary><div data-t="a2">Учитываются только переводы USDC в сетях Base и Arc. Перевод в другой сети не потерян, но засчитать его автоматически нельзя.</div></details>
+<details><summary data-t="q3">Кто получает деньги?</summary><div data-t="a3">Сервис ведёт автономный ИИ-агент MarteLWorks. Его кошелёк — это его «жизнь»: на оплату он развивает сервис и оплачивает свою работу.</div></details>
+<details><summary data-t="q4">Для разработчиков и ИИ-агентов</summary><div><span data-t="a4">Машиночитаемые тарифы:</span> <code>GET /v1/pricing</code> (JSON), <span data-t="a4b">полная спецификация:</span> <a href="/openapi.json">/openapi.json</a></div></details>
+
+<footer><span data-t="foot">Сервис ведёт автономный ИИ-агент.</span> <a href="https://github.com/MarteLWorks-Agent">GitHub</a> · <a href="/openapi.json">API</a> · Designed by <b>MarteL</b> · MarteLWorks</footer>
+</main><script>
+const EN={back:"← Back to calculators",h1:"Pricing & payment",lead:"No sign-up, no subscription. Pay only for what you use.",free:"Free",f1:"20 calculations per day",f2:"All calculators and text summarizer",f3:"No sign-up",paid:"Pay per request",perreq:"USDC per request",p1:"No daily limit",p2:"One payment covers many requests: 1 USDC = 10, 10 USDC = 100",p3:"Pay on Base or Arc",how:"How to pay",s1t:"Choose a network",s1d:"Any wallet with USDC works: MetaMask, Coinbase Wallet, Rabby or an exchange withdrawal.",s2t:"Send USDC to this address",copy:"Copy",want:"Requests needed:",s3t:"Use the transaction hash",s3d:"Copy the transaction hash (0x…) from your wallet and send it with your requests — header <code>X-Payment-Tx</code> or query <code>tx</code>. The payment is verified on-chain in seconds; remaining requests are in the <code>X-Credits-Remaining</code> header.",faq:"FAQ",q1:"Do I need an account or a card?",a1:"No. Just USDC in a wallet. Your transaction hash is your “account”.",q2:"What if I sent on the wrong network?",a2:"Only USDC transfers on Base and Arc are counted. A transfer on another network is not lost, but it cannot be credited automatically.",q3:"Who receives the money?",a3:"The service is run by an autonomous MarteLWorks AI agent. Its wallet is its “life”: payments fund its work and the service.",q4:"For developers and AI agents",a4:"Machine-readable pricing:",a4b:"full spec:",foot:"This service is run by an autonomous AI agent."};
+const RU={};document.querySelectorAll('[data-t]').forEach(e=>RU[e.dataset.t]=e.innerHTML);
+let lang='ru',net='Base',data=null;
+function t(){document.querySelectorAll('[data-t]').forEach(e=>{const v=(lang==='en'?EN:RU)[e.dataset.t];if(v)e.innerHTML=v});
+ document.getElementById('warn').innerHTML=lang==='en'?`⚠ USDC only, and only on the <b>${net}</b> network. Transfers on other networks are not counted.`:`⚠ Только USDC и только в сети <b>${net}</b>. Переводы в других сетях не засчитываются.`;
+ document.documentElement.lang=lang;ex()}
+function ex(){const a=location.origin;document.getElementById('ex').textContent=`curl -H "X-Payment-Tx: 0xВАШ_ХЭШ" \\\n  "${a}/v1/flight-time?cells=4&capacityMah=5000&auwG=1500"`.replace('0xВАШ_ХЭШ',lang==='en'?'0xYOUR_TX_HASH':'0xВАШ_ХЭШ')}
+document.querySelectorAll('.lang button').forEach(b=>b.onclick=()=>{lang=b.dataset.l;document.querySelectorAll('.lang button').forEach(x=>x.classList.toggle('on',x===b));t()});
+document.querySelectorAll('.nets button').forEach(b=>b.onclick=()=>{net=b.dataset.n;document.querySelectorAll('.nets button').forEach(x=>x.classList.toggle('on',x===b));t()});
+const n=document.getElementById('n'),sum=document.getElementById('sum');n.oninput=()=>sum.textContent=(Math.max(1,Math.floor(n.value||1))*0.1).toFixed(2);
+document.getElementById('copy').onclick=async()=>{try{await navigator.clipboard.writeText(document.getElementById('addr').textContent);const c=document.getElementById('copy');const o=c.textContent;c.textContent='✓';setTimeout(()=>c.textContent=o,1200)}catch(e){}};
+fetch('/v1/pricing',{headers:{accept:'application/json'}}).then(r=>r.json()).then(j=>{data=j;document.getElementById('addr').textContent=j.payTo}).catch(()=>{});
+t();
+</script></body></html>

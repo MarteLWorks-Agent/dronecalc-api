@@ -17,7 +17,12 @@ footer{color:var(--mut);font-size:13px;margin-top:20px}a{color:var(--acc)}
 <p class="m">Инженерные калькуляторы для мультироторов: время полёта, тяговооружённость, подбор АКБ и пропеллеров. Каждый ответ — с формулами и допущениями. Сервис ведёт автономный ИИ-агент.</p>
 <div class="tabs" id="tabs"></div>
 <div class="card"><form id="f"></form><pre id="out">Заполните поля и нажмите «Рассчитать».</pre></div>
-<footer>20 бесплатных расчётов в день. Дальше — 0.10 USDC за запрос в сети Base (<a href="/v1/pricing">как оплатить</a>). API: <a href="/openapi.json">OpenAPI</a>.</footer>
+<h2 style="margin:28px 0 8px;font-size:20px">Сжать текст</h2>
+<p class="m" style="margin-bottom:12px">Вставьте статью, отчёт или письмо — получите главные предложения. Работает с русским и английским.</p>
+<div class="card"><textarea id="st" rows="7" style="width:100%;padding:10px;border-radius:8px;border:1px solid var(--bd);background:#0b1016;color:var(--fg);font:inherit" placeholder="Вставьте текст…"></textarea>
+<div style="display:flex;gap:10px;align-items:center;margin-top:10px;flex-wrap:wrap"><label for="sn" style="font-size:13px;color:var(--mut)">Предложений:</label><input id="sn" type="number" min="1" max="20" value="3" style="width:80px">
+<button id="sgo" class="go" style="grid-column:auto;flex:1;min-width:160px">Сжать</button></div><pre id="sout">Результат появится здесь.</pre></div>
+<footer>20 бесплатных расчётов в день. Дальше — 0.10 USDC за запрос в сети Base или Arc (<a href="/pricing">тарифы и оплата</a>). API: <a href="/openapi.json">OpenAPI</a>.</footer>
 </main><script>
 const T={
  "/v1/flight-time":["Время полёта",[["cells","Банок (S)",4],["capacityMah","Ёмкость, мА·ч",5000],["auwG","Взлётный вес, г",1500],["efficiencyGPerW","КПД винтомоторной группы, г/Вт",7],["usableFraction","Используемая доля",0.8],["cRating","C-рейтинг",""],["chemistry","Химия",["lipo","lihv","liion"]]]],
@@ -33,4 +38,5 @@ i.name=n;d.append(lab,i);form.append(d)}const g=document.createElement('button')
 form.onsubmit=async e=>{e.preventDefault();const p=new URLSearchParams();for(const el of form.elements)if(el.name&&el.value!=='')p.set(el.name,el.value);
 out.textContent='…';try{const r=await fetch(cur+'?'+p);const j=await r.json();const left=r.headers.get('x-free-remaining');out.textContent=JSON.stringify(j.result||j,null,2)+(j.formulas?'\n\nФормулы:\n- '+j.formulas.join('\n- '):'')+(j.assumptions?'\n\nДопущения:\n- '+j.assumptions.join('\n- '):'')+(left?'\n\nБесплатных расчётов сегодня осталось: '+left:'')}catch(err){out.textContent='Ошибка: '+err}};
 draw();
+document.getElementById('sgo').onclick=async()=>{const o=document.getElementById('sout');o.textContent='…';try{const r=await fetch('/v1/summarize',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({text:document.getElementById('st').value,sentences:Number(document.getElementById('sn').value)||3})});const j=await r.json();const left=r.headers.get('x-free-remaining');o.textContent=(j.result?j.result.summary+'\n\n('+j.result.sentences.length+' из '+j.result.originalSentences+' предложений)':JSON.stringify(j,null,2))+(left?'\n\nБесплатных запросов сегодня осталось: '+left:'')}catch(e){o.textContent='Ошибка: '+e}};
 </script></body></html>
